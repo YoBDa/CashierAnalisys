@@ -1,16 +1,14 @@
-import datetime
 from collections import deque
 import random
-import csv
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import seaborn as sns
 
-class Client(object):
+class Client(object): # A class representing client
     ticks_waited = 0
 
-class Cashier(object):
+class Cashier(object): # A class representing cashier
     state = False  # False - free, True - busy
     ticks = 0
 
@@ -26,21 +24,21 @@ class Cashier(object):
 
 
 q = deque()  # the queue for cashier
-processed_clients = []
+processed_clients = [] # array storing processed clients
 ticks = 500  # time limit
 cashier = Cashier()
 
 
-counter = 0
+counter = 0 
 client_counter = 0
 processed_counter = 0
 max_queue_length = 0
 average_queue_length = 0
 average_waiting_time = 0
 
-cashier_states = []
-queue_lengths = []
-processed_tickets = []
+cashier_states = [] # array storing cashier state on every tick
+queue_lengths = [] # array storing queue length on every tick
+processed_tickets = [] # array storing number of processed clients every tick
 
 for i in range(ticks):
     input_thread = random.randint(0, 1)  # Input thread generator
@@ -49,7 +47,7 @@ for i in range(ticks):
 
 
     counter += 1  # tick counter
-    qlength = len(q)
+    qlength = len(q) # queue length
 
     if input_thread == 1 and not cashier.state:  # if input 1 & cashier is free
         cashier.state = True  # let cashier busy
@@ -76,12 +74,12 @@ for i in range(ticks):
     cashier_states.append(int(cashier.state)) # save cashier states
 
 
+# Basic analisys
 
 df = pd.DataFrame({
     'qlength': queue_lengths,
     'cstate': cashier_states,
     'proctickets': processed_tickets
-
 })
 
 processed_clients.extend(q)
